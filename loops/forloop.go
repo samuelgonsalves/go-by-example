@@ -5,6 +5,9 @@ import "fmt"
 func main() {
 	fmt.Println(sumOf10NaturalNumbersTheHardWay())
 	printOddNumbers()
+
+	whileCondition(5)
+	loopWithARange(5)
 }
 
 func sumOf10NaturalNumbersTheHardWay() int {
@@ -24,4 +27,22 @@ func printOddNumbers() {
 		}
 	}
 	fmt.Println()
+}
+
+func whileCondition(n int) {
+	i := 0
+	for i < n {
+		i++
+	}
+
+	fmt.Println(i)
+}
+
+func loopWithARange(n int) {
+	fmt.Println("Range loop")
+
+	// range is 0 to n-1
+	for i := range n {
+		fmt.Print(i, ",")
+	}
 }
