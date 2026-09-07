@@ -9,6 +9,9 @@ func main() {
 	printMatchingNames("sam")
 	printMatchingNames("helen")
 	printMatchingNames("hope")
+
+	printNumbers(2)
+	printNumbers(5)
 }
 
 func printMatchingNames(name string) {
@@ -20,5 +23,18 @@ func printMatchingNames(name string) {
 		fmt.Println(name, "starts with he and ends with en")
 	default:
 		fmt.Println("No checks matched")
+	}
+}
+
+func printNumbers(num int) {
+	switch num {
+	case 1:
+		fmt.Println("One")
+	case 2:
+		fmt.Println("Two")
+	case 3:
+		fmt.Println("Three")
+	default:
+		fmt.Println("Some other value!")
 	}
 }
