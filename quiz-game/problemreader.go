@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
+	"time"
 )
 
 // Read the problems line by line
@@ -17,11 +17,23 @@ import (
 func main() {
 	problems := ReadProblems()
 
+	fmt.Printf("Welcome to the quiz game! There are a total of %d problems to solve\nEach problem gives you 3s to solve before marking it as incorrect\n", len(problems))
+
 	c := 0
+	i := make(chan string, 1)
+	go userInput(i)
+
 	for index, problem := range problems {
+		select {
+		case <-i:
+		default:
+		}
+
+		t := time.NewTimer(3 * time.Second)
 
 		fmt.Printf("Problem #%d: %s\n", index+1, problem[0])
-		userSolution := userInput()
+
+		userSolution := waitOrInput(i, t.C)
 
 		if userSolution == problem[1] {
 			c++
@@ -48,15 +60,21 @@ func ReadProblems() [][]string {
 	return problems
 }
 
-func userInput() string {
+func userInput(c chan string) {
 	scanner := bufio.NewScanner(os.Stdin)
-	s := make([]string, 0)
-	scanner.Scan()
-
-	s = append(s, scanner.Text())
-
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("Failed to scan input %s", err)
+	for scanner.Scan() {
+		c <- scanner.Text()
 	}
-	return strings.Join(s, "")
+	if err := scanner.Err(); err != nil {
+		log.Printf("Scanner error: %s", err)
+	}
+}
+
+func waitOrInput(i chan string, t <-chan time.Time) string {
+	select {
+	case <-t:
+		return ""
+	case input := <-i:
+		return input
+	}
 }
