@@ -14,6 +14,8 @@ import (
 // Iterate one by one over the slice asking the user the question and comparing user answer with the answer in the problem
 // Keep a counter of correct responses and return that
 
+// TODO: Need to refactor to use a global timer instead
+
 func main() {
 	problems := ReadProblems()
 
